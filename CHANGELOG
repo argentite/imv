@@ -1,6 +1,10 @@
 imv Changelog
 =============
 
+v4.3.1 - 2021-12-14
+
+* Fix segfault when used with latest wlroots
+
 v4.3.0 - 2021-08-05
 
 * Give freeimage backend preceedence over libjpeg
