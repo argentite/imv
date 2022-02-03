@@ -460,6 +460,12 @@ static void event_handler(void *data, const struct imv_event *e)
         imv_viewport_move(imv->view, e->data.mouse_motion.dx,
             e->data.mouse_motion.dy, imv->current_image);
       }
+
+      update_env_vars(imv);
+      char title[1024];
+      generate_env_text(imv, title, sizeof title, imv->title_text);
+      imv_window_set_title(imv->window, title);
+
       break;
     case IMV_EVENT_MOUSE_SCROLL:
       {
@@ -1991,6 +1997,23 @@ static void update_env_vars(struct imv *imv)
 
   snprintf(str, sizeof str, "%f", imv->slideshow.elapsed);
   setenv("imv_slideshow_elapsed", str, 1);
+
+  {
+    double mouse_x, mouse_y;
+    imv_window_get_mouse_position(imv->window, &mouse_x, &mouse_y);
+
+    double scale;
+    imv_viewport_get_scale(imv->view, &scale);
+
+    int offset_x, offset_y;
+    imv_viewport_get_offset(imv->view, &offset_x, &offset_y);
+
+    snprintf(str, sizeof str, "%f", (mouse_x - offset_x) / scale);
+    setenv("imv_mouse_x", str, 1);
+
+    snprintf(str, sizeof str, "%f", (mouse_y - offset_y) / scale);
+    setenv("imv_mouse_y", str, 1);
+  }
 }
 
 static size_t generate_env_text(struct imv *imv, char *buf, size_t buf_len, const char *format)

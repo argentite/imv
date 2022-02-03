@@ -312,6 +312,12 @@ customising the window's title, or the overlay text.
 *$imv_slideshow_elapsed*::
 	How long the current image has been shown for.
 
+*$imv_mouse_x*::
+	X co-ordinate of mouse pointer relative to image.
+
+*$imv_mouse_y*::
+	Y co-ordinate of mouse pointer relative to image.
+
 IPC
 ---
 
